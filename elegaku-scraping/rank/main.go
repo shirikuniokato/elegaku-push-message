@@ -9,15 +9,6 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-type Girl struct {
-	GirlId    string `json:"girl_id"`
-	Name      string `json:"name"`
-	Age       int    `json:"age"`
-	ThreeSize string `json:"three_size"`
-	CatchCopy string `json:"catch_copy"`
-	Image     string `json:"image"`
-}
-
 type Rank struct {
 	Rank   int    `json:"rank"`
 	GirlId string `json:"girl_id"`
