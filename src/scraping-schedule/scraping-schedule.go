@@ -29,6 +29,7 @@ func main() {
 
 // ランキング更新
 func updateSchedule(date string) {
+
 	webPage := ("https://www.elegaku.com/cast/schedule/" + date)
 	resp, err := http.Get(webPage)
 	if err != nil {
