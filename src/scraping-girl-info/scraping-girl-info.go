@@ -28,7 +28,7 @@ func main() {
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode != 200 {
+	if resp.StatusCode != http.StatusOK {
 		log.Fatalf("failed to fetch data: %d %s", resp.StatusCode, resp.Status)
 		return
 	}
