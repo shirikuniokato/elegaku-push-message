@@ -1,51 +1,91 @@
 package main
 
 import (
+	"elegaku"
+	"errors"
+	"fmt"
 	"log"
 	"net/http"
 	"regexp"
 	"strconv"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/credentials"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/guregu/dynamo"
 )
 
-type Rank struct {
-	Rank   int    `json:"rank"`
-	GirlId string `json:"girl_id"`
+// 本来はenvから取得した方が良い
+const AWS_REGION = "ap-northeast-1"
+const DYNAMO_ENDPOINT = "http://localhost:8000"
+
+// ランキングの更新
+func main() {
+	// クライアントの設定
+	sess, err := session.NewSession(&aws.Config{
+		Region:      aws.String(AWS_REGION),
+		Endpoint:    aws.String(DYNAMO_ENDPOINT),
+		Credentials: credentials.NewStaticCredentials("dummy", "dummy", "dummy"),
+	})
+	if err != nil {
+		panic(err)
+	}
+	db := dynamo.New(sess)
+	table := db.Table("rank")
+
+	// 最新の在籍情報を取得
+	rank, err := getRank()
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	// 取得した在籍情報を登録する。
+	for _, r := range rank {
+		table.Delete("rank", r.Rank).Run()
+		err := table.Put(r).Run()
+
+		if err != nil {
+			fmt.Println(err.Error())
+			break
+		}
+	}
 }
 
-// ランキング更新
-func main() {
+// 最新のランキング更新
+func getRank() ([]elegaku.Rank, error) {
 	webPage := ("https://www.elegaku.com/rank/")
 	resp, err := http.Get(webPage)
 	if err != nil {
 		log.Printf("failed to get html: %s", err)
+		return nil, errors.New("スクレイピング失敗！")
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode != 200 {
-		log.Fatalf("failed to fetch data: %d %s", resp.StatusCode, resp.Status)
-		return
+	if resp.StatusCode != http.StatusOK {
+		log.Printf("failed to get html: %s", err)
+		return nil, errors.New("スクレイピング失敗！")
 	}
 
 	doc, err := goquery.NewDocumentFromReader(resp.Body)
 	if err != nil {
-		log.Printf("failed to load html: %s", err)
-		return
+		log.Printf("failed to get html: %s", err)
+		return nil, errors.New("スクレイピング失敗！")
 	}
 
 	// ランキングを取得（１位～１０位）
-	rank := []Rank{}
-	rank = append(rank, one_three(doc)...)
-	rank = append(rank, four_five(doc)...)
-	rank = append(rank, six_ten(doc)...)
+	results := []elegaku.Rank{}
+	results = append(results, oneToThree(doc)...)
+	results = append(results, fourToFive(doc)...)
+	results = append(results, sixToTen(doc)...)
 
-	// TODO■DynamoDBへの登録・更新処理が必要
+	return results, nil
 }
 
 // １～３位の情報を取得
-func one_three(doc *goquery.Document) []Rank {
-	results := []Rank{}
+func oneToThree(doc *goquery.Document) []elegaku.Rank {
+	results := []elegaku.Rank{}
 
 	doc.Find("#one_three").Find("#rank_com").Each(func(i int, sGirl *goquery.Selection) {
 		// GirlId・順位の取得
@@ -53,9 +93,11 @@ func one_three(doc *goquery.Document) []Rank {
 		r, _ := sGirl.Find("span").Attr("class")
 
 		// 初期化・セット
-		rank := Rank{}
+		rank := elegaku.Rank{}
 		rank.GirlId = regexp.MustCompile("[^0-9]").ReplaceAllString(g, "")
 		rank.Rank, _ = strconv.Atoi(regexp.MustCompile("[^0-9]").ReplaceAllString(r, ""))
+		rank.CreateDatetime = elegaku.GetTimestamp()
+		rank.UpdateDatetime = elegaku.GetTimestamp()
 		results = append(results, rank)
 	})
 
@@ -63,8 +105,8 @@ func one_three(doc *goquery.Document) []Rank {
 }
 
 // ４～５位の情報を取得
-func four_five(doc *goquery.Document) []Rank {
-	results := []Rank{}
+func fourToFive(doc *goquery.Document) []elegaku.Rank {
+	results := []elegaku.Rank{}
 
 	doc.Find("#four_five").Find("#rank_com").Each(func(i int, sGirl *goquery.Selection) {
 		// GirlId・順位の取得
@@ -72,9 +114,11 @@ func four_five(doc *goquery.Document) []Rank {
 		r, _ := sGirl.Find("span").Attr("class")
 
 		// 初期化・セット
-		rank := Rank{}
+		rank := elegaku.Rank{}
 		rank.GirlId = regexp.MustCompile("[^0-9]").ReplaceAllString(g, "")
 		rank.Rank, _ = strconv.Atoi(regexp.MustCompile("[^0-9]").ReplaceAllString(r, ""))
+		rank.CreateDatetime = elegaku.GetTimestamp()
+		rank.UpdateDatetime = elegaku.GetTimestamp()
 		results = append(results, rank)
 	})
 
@@ -82,8 +126,8 @@ func four_five(doc *goquery.Document) []Rank {
 }
 
 // ６～１０位の情報を取得
-func six_ten(doc *goquery.Document) []Rank {
-	results := []Rank{}
+func sixToTen(doc *goquery.Document) []elegaku.Rank {
+	results := []elegaku.Rank{}
 
 	doc.Find("#castBox").Find("#companion_box").Each(func(i int, sGirl *goquery.Selection) {
 		// GirlIdの取得
@@ -97,9 +141,11 @@ func six_ten(doc *goquery.Document) []Rank {
 		r3 := regexp.MustCompile("\\.png").ReplaceAllString(r2, "")
 
 		// 初期化・セット
-		rank := Rank{}
+		rank := elegaku.Rank{}
 		rank.GirlId = regexp.MustCompile("[^0-9]").ReplaceAllString(g, "")
 		rank.Rank, _ = strconv.Atoi(r3)
+		rank.CreateDatetime = elegaku.GetTimestamp()
+		rank.UpdateDatetime = elegaku.GetTimestamp()
 		results = append(results, rank)
 	})
 
