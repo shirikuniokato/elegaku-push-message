@@ -1,13 +1,14 @@
 package main
 
 import (
-	"elegaku"
 	"errors"
 	"fmt"
 	"log"
 	"net/http"
 	"regexp"
 	"strconv"
+
+	"local.packages/src/elegaku"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/aws/aws-sdk-go/aws"

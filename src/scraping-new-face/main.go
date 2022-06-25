@@ -1,14 +1,13 @@
 package main
 
 import (
-	"elegaku"
 	"errors"
 	"fmt"
 	"log"
 	"net/http"
 	"regexp"
-	"strconv"
-	"strings"
+
+	"local.packages/src/elegaku"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/aws/aws-sdk-go/aws"
@@ -21,7 +20,7 @@ import (
 const AWS_REGION = "ap-northeast-1"
 const DYNAMO_ENDPOINT = "http://localhost:8000"
 
-// 在籍情報の追加・更新
+// 新入生取得
 func main() {
 	// クライアントの設定
 	sess, err := session.NewSession(&aws.Config{
@@ -32,20 +31,20 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
 	db := dynamo.New(sess)
+	table := db.Table("new_face")
+	newFaces, err := getNewFaces()
 
-	table := db.Table("girls")
-
-	// 最新の在籍情報を取得
-	girls, err := getGitls()
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
 	// 取得した在籍情報を登録する。
-	for _, g := range girls {
-		err := table.Put(g).Run()
+	for _, n := range newFaces {
+		table.Delete("girl_id", n.GirlId).Run()
+		err := table.Put(n).Run()
 
 		if err != nil {
 			fmt.Println(err.Error())
@@ -54,13 +53,12 @@ func main() {
 	}
 }
 
-// 最新の在籍情報を取得（WEBスクレイピング）
-func getGitls() ([]elegaku.Girl, error) {
-	webPage := ("https://www.elegaku.com/cast/")
+// 最新の新入生情報を取得
+func getNewFaces() ([]elegaku.NewFace, error) {
+	webPage := ("https://www.elegaku.com/newface/")
 	resp, err := http.Get(webPage)
 	if err != nil {
 		log.Printf("failed to get html: %s", err)
-		return nil, errors.New("スクレイピング失敗！")
 	}
 	defer resp.Body.Close()
 
@@ -71,32 +69,17 @@ func getGitls() ([]elegaku.Girl, error) {
 
 	doc, err := goquery.NewDocumentFromReader(resp.Body)
 	if err != nil {
-		log.Printf("failed to load html: %s", err)
 		return nil, errors.New("スクレイピング失敗！")
 	}
 
-	results := []elegaku.Girl{}
+	// 新入生を取得を取得
+	results := []elegaku.NewFace{}
 	doc.Find("#companion_box").Each(func(i int, sGirl *goquery.Selection) {
-		// GirlIdを取得
-		girlId, _ := sGirl.Find("div.g_image > a").Attr("href")
+		// GirlIdの取得
+		g, _ := sGirl.Find("div.g_image > a").Attr("href")
 
-		// 名前と年齢を取得
-		nameAndAge := strings.TrimSpace(sGirl.Find(".name > a").Text())
-		length := len(nameAndAge)
-
-		// 初期化・セット
-		girl := elegaku.Girl{}
-		girl.GirlId = regexp.MustCompile("[^0-9]").ReplaceAllString(girlId, "")
-		girl.Name = nameAndAge[0 : length-2]
-		girl.Age, _ = strconv.Atoi(nameAndAge[length-2 : length])
-		girl.ThreeSize = sGirl.Find(".size").Text()
-		girl.CatchCopy = sGirl.Find(".catch").Text()
-		girl.Image, _ = sGirl.Find("div.g_image > a").Children().Attr("src")
-		girl.CreateDatetime = elegaku.GetTimestamp()
-		girl.UpdateDatetime = elegaku.GetTimestamp()
-
-		results = append(results, girl)
+		// 初期化・セット・追加
+		results = append(results, elegaku.NewFace{GirlId: regexp.MustCompile("[^0-9]").ReplaceAllString(g, ""), CreateDatetime: elegaku.GetTimestamp(), UpdateDatetime: elegaku.GetTimestamp()})
 	})
-
 	return results, nil
 }
