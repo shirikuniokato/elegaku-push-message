@@ -12,27 +12,11 @@ import (
 	"local.packages/src/elegaku"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/guregu/dynamo"
 )
 
-// 本来はenvから取得した方が良い
-const AWS_REGION = "ap-northeast-1"
-const DYNAMO_ENDPOINT = "http://localhost:8000"
-
 func main() {
-	// クライアントの設定
-	sess, err := session.NewSession(&aws.Config{
-		Region:      aws.String(AWS_REGION),
-		Endpoint:    aws.String(DYNAMO_ENDPOINT),
-		Credentials: credentials.NewStaticCredentials("dummy", "dummy", "dummy"),
-	})
-	if err != nil {
-		panic(err)
-	}
-	db := dynamo.New(sess)
+	// DynamoDBに接続
+	db := elegaku.ConnectDB()
 	// １週間分の加算値
 	week := []int{0, 1, 2, 3, 4, 5, 6}
 	t := time.Now()
@@ -55,13 +39,10 @@ func main() {
 		// 出勤情報登録
 		for _, s := range schedule {
 			var base elegaku.Schedule
-			table.Get("girl_id", s.GirlId).One(&base)
-
-			fmt.Println(s.CreateDatetime)
+			table.Get(elegaku.S_GIRL_ID, s.GirlId).One(&base)
 
 			// 出勤情報が未登録の場合はPUT
-			if err != nil {
-				fmt.Println(err.Error())
+			if base.GirlId == "" {
 				table.Put(s).Run()
 				continue
 			}
@@ -70,7 +51,7 @@ func main() {
 			// ただし、出勤時間未確定の場合は更新対象外とする
 			if s.Time != base.Time && s.Time != "" {
 				// 変更している場合
-				table.Update("girl_id", s.GirlId).Set("notice_flg", 0).Set("time", s.Time).Set("update_datetime", elegaku.GetTimestamp()).Run()
+				table.Update(elegaku.S_GIRL_ID, s.GirlId).Set(elegaku.S_NOTICE_FLG, 0).Set(elegaku.S_TIME, s.Time).Set(elegaku.S_UPDATE_DATE_TIME, elegaku.GetTimestamp()).Run()
 				continue
 			} else {
 				// 変更していない場合

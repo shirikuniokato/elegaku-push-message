@@ -12,30 +12,13 @@ import (
 	"local.packages/src/elegaku"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/guregu/dynamo"
 )
-
-// 本来はenvから取得した方が良い
-const AWS_REGION = "ap-northeast-1"
-const DYNAMO_ENDPOINT = "http://localhost:8000"
 
 // 在籍情報の追加・更新
 func main() {
-	// クライアントの設定
-	sess, err := session.NewSession(&aws.Config{
-		Region:      aws.String(AWS_REGION),
-		Endpoint:    aws.String(DYNAMO_ENDPOINT),
-		Credentials: credentials.NewStaticCredentials("dummy", "dummy", "dummy"),
-	})
-	if err != nil {
-		panic(err)
-	}
-	db := dynamo.New(sess)
-
-	table := db.Table("girls")
+	// DynamoDBに接続
+	db := elegaku.ConnectDB()
+	table := db.Table(elegaku.TBLNM_GIRLS)
 
 	// 最新の在籍情報を取得
 	girls, err := getGitls()

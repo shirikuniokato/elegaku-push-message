@@ -11,29 +11,13 @@ import (
 	"local.packages/src/elegaku"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/guregu/dynamo"
 )
-
-// 本来はenvから取得した方が良い
-const AWS_REGION = "ap-northeast-1"
-const DYNAMO_ENDPOINT = "http://localhost:8000"
 
 // ランキングの更新
 func main() {
-	// クライアントの設定
-	sess, err := session.NewSession(&aws.Config{
-		Region:      aws.String(AWS_REGION),
-		Endpoint:    aws.String(DYNAMO_ENDPOINT),
-		Credentials: credentials.NewStaticCredentials("dummy", "dummy", "dummy"),
-	})
-	if err != nil {
-		panic(err)
-	}
-	db := dynamo.New(sess)
-	table := db.Table("rank")
+	// DynamoDBに接続
+	db := elegaku.ConnectDB()
+	table := db.Table(elegaku.TBLNM_RANK)
 
 	// 最新の在籍情報を取得
 	rank, err := getRank()
@@ -44,13 +28,8 @@ func main() {
 
 	// 取得した在籍情報を登録する。
 	for _, r := range rank {
-		table.Delete("rank", r.Rank).Run()
-		err := table.Put(r).Run()
-
-		if err != nil {
-			fmt.Println(err.Error())
-			break
-		}
+		table.Delete(elegaku.R_RANK, r.Rank).Run()
+		table.Put(r).Run()
 	}
 }
 

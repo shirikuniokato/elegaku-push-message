@@ -10,30 +10,13 @@ import (
 	"local.packages/src/elegaku"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/guregu/dynamo"
 )
-
-// 本来はenvから取得した方が良い
-const AWS_REGION = "ap-northeast-1"
-const DYNAMO_ENDPOINT = "http://localhost:8000"
 
 // 新入生取得
 func main() {
 	// クライアントの設定
-	sess, err := session.NewSession(&aws.Config{
-		Region:      aws.String(AWS_REGION),
-		Endpoint:    aws.String(DYNAMO_ENDPOINT),
-		Credentials: credentials.NewStaticCredentials("dummy", "dummy", "dummy"),
-	})
-	if err != nil {
-		panic(err)
-	}
-
-	db := dynamo.New(sess)
-	table := db.Table("new_face")
+	db := elegaku.ConnectDB()
+	table := db.Table(elegaku.TBLNM_NEW_FACE)
 	newFaces, err := getNewFaces()
 
 	if err != nil {
@@ -43,13 +26,8 @@ func main() {
 
 	// 取得した在籍情報を登録する。
 	for _, n := range newFaces {
-		table.Delete("girl_id", n.GirlId).Run()
-		err := table.Put(n).Run()
-
-		if err != nil {
-			fmt.Println(err.Error())
-			break
-		}
+		table.Delete(elegaku.N_GIRL_ID, n.GirlId).Run()
+		table.Put(n).Run()
 	}
 }
 
