@@ -9,16 +9,12 @@ import (
 	"github.com/guregu/dynamo"
 )
 
-// TODO■Lambdaに乗っける前に環境変数から取得するように修正する
-const AWS_REGION = "ap-northeast-1"
-const DYNAMO_ENDPOINT = "http://localhost:8000"
-
 // DynamoDBに接続
 func ConnectDB() *dynamo.DB {
 	// クライアントの設定
 	sess, err := session.NewSession(&aws.Config{
-		Region:      aws.String(AWS_REGION),
-		Endpoint:    aws.String(DYNAMO_ENDPOINT),
+		Region:      aws.String("ap-northeast-1"),
+		Endpoint:    aws.String("dynamodb.ap-northeast-1.amazonaws.com"),
 		Credentials: credentials.NewStaticCredentials("dummy", "dummy", "dummy"),
 	})
 	if err != nil {
