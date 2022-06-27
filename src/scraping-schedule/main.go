@@ -47,7 +47,10 @@ func putSchedule() {
 
 			// 出勤情報が未登録の場合はPUT
 			if base.GirlId == "" {
-				table.Put(s).Run()
+				err := table.Put(s).Run()
+				if err != nil {
+					fmt.Println(err.Error())
+				}
 				continue
 			}
 
@@ -55,7 +58,10 @@ func putSchedule() {
 			// ただし、出勤時間未確定の場合は更新対象外とする
 			if s.Time != base.Time && s.Time != "" {
 				// 変更している場合
-				table.Update(elegaku.S_GIRL_ID, s.GirlId).Set(elegaku.S_NOTICE_FLG, 0).Set(elegaku.S_TIME, s.Time).Set(elegaku.S_UPDATE_DATE_TIME, elegaku.GetTimestamp()).Run()
+				err := table.Update(elegaku.S_GIRL_ID, s.GirlId).Set(elegaku.S_NOTICE_FLG, 0).Set(elegaku.S_TIME, s.Time).Set(elegaku.S_UPDATE_DATE_TIME, elegaku.GetTimestamp()).Run()
+				if err != nil {
+					fmt.Println(err.Error())
+				}
 				continue
 			} else {
 				// 変更していない場合
