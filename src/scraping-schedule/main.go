@@ -12,9 +12,11 @@ import (
 	"local.packages/src/elegaku"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/aws/aws-lambda-go/lambda"
 )
 
-func main() {
+// 出勤情報をDynamoDBに追加・更新
+func putSchedule() {
 	// DynamoDBに接続
 	db := elegaku.ConnectDB()
 	// １週間分の加算値
@@ -100,4 +102,13 @@ func getSchedule(date string) ([]elegaku.Schedule, error) {
 	})
 
 	return results, nil
+}
+
+// 出勤情報の追加・更新処理を呼び出す
+func HandleLambdaEvent() {
+	putSchedule()
+}
+
+func main() {
+	lambda.Start(HandleLambdaEvent)
 }
