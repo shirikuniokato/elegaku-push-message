@@ -17,6 +17,7 @@ import (
 
 // 出勤情報をDynamoDBに追加・更新
 func putSchedule() {
+	fmt.Println("scraping start")
 	// DynamoDBに接続
 	db := elegaku.ConnectDB()
 	// １週間分の加算値
@@ -26,6 +27,7 @@ func putSchedule() {
 		// テーブル名取得
 		targetDate := t.AddDate(0, 0, v)
 		tableName := targetDate.Format("20060102")
+		fmt.Println(tableName + " start")
 
 		// テーブル作成・取得
 		db.CreateTable(tableName, elegaku.Schedule{}).Run()
@@ -60,7 +62,9 @@ func putSchedule() {
 				continue
 			}
 		}
+		fmt.Println(tableName + " end")
 	}
+	fmt.Println("scraping end")
 }
 
 // 最新の出勤情報取得
