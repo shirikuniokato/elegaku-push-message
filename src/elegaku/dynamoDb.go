@@ -16,7 +16,7 @@ func ConnectDB() *dynamo.DB {
 	sess, err := session.NewSession(&aws.Config{
 		Region:      aws.String("ap-northeast-1"),
 		Endpoint:    aws.String("dynamodb.ap-northeast-1.amazonaws.com"),
-		Credentials: credentials.NewStaticCredentials(os.Getenv("ACCESS_KEY"), os.Getenv("SECRET_ACCESS_KEY"), "dummy"),
+		Credentials: credentials.NewStaticCredentials(os.Getenv("ACCESS_KEY"), os.Getenv("SECRET_ACCESS_KEY"), ""),
 	})
 	if err != nil {
 		panic(err)
