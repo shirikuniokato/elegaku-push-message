@@ -22,7 +22,11 @@ func putSchedule() {
 	db := elegaku.ConnectDB()
 	// １週間分の加算値
 	week := []int{0, 1, 2, 3, 4, 5, 6}
-	t := time.Now()
+
+	// タイムゾーンを取得
+	// 取得したタイムゾーンのTimeを取得する
+	jst, _ := time.LoadLocation("Asia/Tokyo")
+	t := time.Now().In(jst)
 	for _, v := range week {
 		// テーブル名取得
 		targetDate := t.AddDate(0, 0, v)
@@ -68,9 +72,7 @@ func putSchedule() {
 				continue
 			}
 		}
-		fmt.Println(tableName + " end")
 	}
-	fmt.Println("scraping end")
 }
 
 // 最新の出勤情報取得

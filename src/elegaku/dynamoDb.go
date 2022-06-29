@@ -25,8 +25,11 @@ func ConnectDB() *dynamo.DB {
 	return dynamo.New(sess)
 }
 
-// タイムスタンプの取得
+// タイムスタンプの取得（JST）
 func GetTimestamp() string {
+	// タイムゾーンを取得
+	jst, _ := time.LoadLocation("Asia/Tokyo")
+
 	// 現在時刻をyyyy-MM-dd hh:mm:ss形式で取得
-	return time.Now().Format("2006-01-02 15:04:05")
+	return time.Now().In(jst).Format("2006-01-02 15:04:05")
 }
