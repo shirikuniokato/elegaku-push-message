@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
-	"time"
 
 	"local.packages/src/elegaku"
 
@@ -25,12 +24,11 @@ func putSchedule() {
 
 	// タイムゾーンを取得
 	// 取得したタイムゾーンのTimeを取得する
-	jst, _ := time.LoadLocation("Asia/Tokyo")
-	t := time.Now().In(jst)
+	t := elegaku.GetTimeJst()
 	for _, v := range week {
 		// テーブル名取得
 		targetDate := t.AddDate(0, 0, v)
-		tableName := targetDate.Format("20060102")
+		tableName := targetDate.Format(elegaku.YMD_FMT)
 		fmt.Println(tableName + " start")
 
 		// テーブル作成・取得
