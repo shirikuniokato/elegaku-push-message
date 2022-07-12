@@ -79,6 +79,9 @@ func getGitls() ([]elegaku.Girl, error) {
 		girl.CreateDatetime = elegaku.GetTimestamp()
 		girl.UpdateDatetime = elegaku.GetTimestamp()
 
+		// スクレイピング結果にはhttps:がついていないので追加
+		girl.Image = "https:" + girl.Image
+
 		results = append(results, girl)
 	})
 
