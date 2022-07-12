@@ -5,7 +5,6 @@ import (
 
 	"local.packages/src/elegaku"
 
-	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/guregu/dynamo"
 )
 
@@ -35,11 +34,13 @@ func getNotificationList() []elegaku.PushInfo {
 
 		// 未通知の出勤情報を取得
 		var scheduleList []elegaku.Schedule
-		err := table.Scan().Filter("notice_flg = '0'").All(&scheduleList)
+		err := table.Scan().Filter("'notice_flg' = ?", 0).All(&scheduleList)
+
 		if err != nil {
 			// 通知対象の女の子がいない場合は次の日へ
 			continue
 		}
+		fmt.Println(len(scheduleList))
 
 		pushInfoList = append(pushInfoList, bindUserAndGirl(db, tableName, scheduleList)...)
 	}
@@ -91,11 +92,15 @@ func bindUserAndGirl(db *dynamo.DB, targetDate string, schedule []elegaku.Schedu
 	return results
 }
 
-// 出勤情報の追加・更新処理を呼び出す
-func HandleLambdaEvent() {
-	getNotificationList()
-}
+// // 出勤情報の追加・更新処理を呼び出す
+// func HandleLambdaEvent() {
+// 	getNotificationList()
+// }
+
+// func main() {
+// 	lambda.Start(HandleLambdaEvent)
+// }
 
 func main() {
-	lambda.Start(HandleLambdaEvent)
+	getNotificationList()
 }
