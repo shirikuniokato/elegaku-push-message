@@ -1,7 +1,6 @@
 package elegaku
 
 import (
-	"os"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -16,7 +15,7 @@ func ConnectDB() *dynamo.DB {
 	sess, err := session.NewSession(&aws.Config{
 		Region:      aws.String("ap-northeast-1"),
 		Endpoint:    aws.String("dynamodb.ap-northeast-1.amazonaws.com"),
-		Credentials: credentials.NewStaticCredentials(os.Getenv("ACCESS_KEY"), os.Getenv("SECRET_ACCESS_KEY"), ""),
+		Credentials: credentials.NewStaticCredentials("", "", ""),
 	})
 	if err != nil {
 		panic(err)
