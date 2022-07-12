@@ -5,6 +5,7 @@ const (
 	TBLNM_GIRLS    string = "girls"
 	TBLNM_NEW_FACE string = "new_face"
 	TBLNM_RANK     string = "rank"
+	TBLNM_USERS    string = "users"
 	// scheculeのテーブル名はyyyyMMddとなるためここでは定義しない
 )
 
@@ -78,4 +79,18 @@ const (
 	S_NOTICE_FLG       string = "notice_flg"
 	S_CREATE_DATE_TIME string = "create_datetime"
 	S_UPDATE_DATE_TIME string = "update_datetime"
+)
+
+// usersテーブル
+type User struct {
+	UserId          string   `dynamo:"user_id,hash"`
+	UserName        string   `dynamo:"user_name"`
+	FavoriteGirlIds []string `dynamo:"favorite_girl_ids"`
+}
+
+// usersカラム
+const (
+	U_USER_ID           string = "user_id"
+	U_USER_NAME         string = "user_name"
+	U_FAVORITE_GIRL_IDS string = "favorite_girl_ids"
 )
