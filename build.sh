@@ -2,7 +2,7 @@
 
 echo '==========================ビルド開始=========================='
 
-select VAR in notification scraping-girl-info scraping-new-face scraping-rank scraping-schedule-update scraping-schedule identify
+select VAR in notification scraping-girl-info scraping-new-face scraping-rank scraping-schedule-update scraping-schedule-identify
 do 
 	echo "$VARのビルドを開始します。"
 	break
