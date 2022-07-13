@@ -1,7 +1,7 @@
 package elegaku
 
 import (
-	"fmt"
+	"encoding/json"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -10,10 +10,10 @@ import (
 
 // SQSに格納する通知情報
 type PushInfo struct {
-	TargetDate string
-	GirlId     string
-	Image      string
-	UserIds    []string
+	TargetDate string   `json:"target_date"`
+	GirlId     string   `json:"girl_id"`
+	Image      string   `json:"image"`
+	UserIds    []string `json:"user_ids,omitempty"`
 }
 
 // SQSに接続
@@ -30,12 +30,13 @@ func ConnectSQS() *sqs.SQS {
 }
 
 // SQSにPushInfoを格納する
-func PushSQS(svc *sqs.SQS, info PushInfo) {
-	// TODO 実装悩み中
+func PushSQS(svc *sqs.SQS, infoList []PushInfo) {
+	// 通知情報をJSONに変換する
+	msg, _ := json.Marshal(infoList)
+
 	// 通知情報を格納する
-	msg := fmt.Sprintf("%s,%s,%s,%s", info.TargetDate, info.GirlId, info.Image, info.UserIds) // 通知情報を文字列に変換
 	svc.SendMessage(&sqs.SendMessageInput{
-		QueueUrl:    aws.String("https://sqs.us-west-2.amazonaws.com/123456789012/SQS_QUEUE_NAME"),
-		MessageBody: aws.String(msg),
+		QueueUrl:    aws.String("https://sqs.ap-northeast-1.amazonaws.com/856051715637/attendance_notification"),
+		MessageBody: aws.String(string(msg)),
 	})
 }
