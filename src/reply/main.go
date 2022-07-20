@@ -14,10 +14,14 @@ import (
 
 /* 返信 */
 func reply(bot *linebot.Client, webhook elegaku.WebHook) error {
+	fmt.Println("*** reply start")
 	// リクエストされたイベントの件数分処理する
 	for _, event := range webhook.Events {
 		_, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("テスト")).Do()
-		fmt.Println(err)
+		if err != nil {
+			fmt.Println(err)
+			return err
+		}
 
 		switch event.Type {
 		case linebot.EventTypeFollow: // フォローイベント
@@ -34,6 +38,7 @@ func reply(bot *linebot.Client, webhook elegaku.WebHook) error {
 			fmt.Println("処理対象外のイベント")
 		}
 	}
+	fmt.Println("*** reply end")
 	return nil
 }
 
@@ -41,7 +46,7 @@ func handler(request events.APIGatewayProxyRequest) error {
 	// リクエスト内容をデコードする
 	var webhook elegaku.WebHook
 	if err := json.Unmarshal([]byte(request.Body), &webhook); err != nil {
-		return nil
+		return err
 	}
 
 	// ボットの定義
@@ -52,14 +57,14 @@ func handler(request events.APIGatewayProxyRequest) error {
 	)
 	if err != nil {
 		log.Fatal(err)
-		return nil
+		return err
 	}
 
 	// 返信
 	err = reply(bot, webhook)
 	if err != nil {
 		log.Fatal(err)
-		return nil
+		return err
 	}
 
 	return nil
