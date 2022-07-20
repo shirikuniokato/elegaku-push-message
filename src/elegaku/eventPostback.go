@@ -1,4 +1,4 @@
-package main
+package elegaku
 
 // ポストバック
 func Postback() {

@@ -1,4 +1,4 @@
-package main
+package elegaku
 
 // 友達追加
 func Follow() {

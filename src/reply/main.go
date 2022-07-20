@@ -22,13 +22,13 @@ func reply(bot *linebot.Client, webhook elegaku.WebHook) error {
 		switch event.Type {
 		case linebot.EventTypeFollow: // フォローイベント
 			fmt.Println("*** event follow")
-			Follow()
+			elegaku.Follow()
 		case linebot.EventTypeUnfollow: // フォロー解除イベント
 			fmt.Println("*** event unfollow")
-			UnFollow()
+			elegaku.UnFollow()
 		case linebot.EventTypePostback: // ポストバックイベント
 			fmt.Println("*** event postback")
-			Postback()
+			elegaku.Postback()
 		default:
 			fmt.Println("*** event " + event.Type)
 			fmt.Println("処理対象外のイベント")

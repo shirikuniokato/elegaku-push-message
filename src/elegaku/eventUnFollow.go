@@ -1,4 +1,4 @@
-package main
+package elegaku
 
 // ブロック等
 func UnFollow() {
