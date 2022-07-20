@@ -17,3 +17,4 @@ GOOS=linux go build main.go
 GOOS=linux CGO_ENABLED=0 go build main.go
 zip function.zip main
 echo '==========================ビルド終了=========================='
+　
