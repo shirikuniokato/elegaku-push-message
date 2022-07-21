@@ -2,7 +2,12 @@ package elegaku
 
 import "time"
 
-const YMD_FMT = "20060102"
+// 日付フォーマット
+const (
+	YMD_FMT         = "20060102"
+	MD_FMT          = "0102"
+	ELEGAKU_YMD_FMT = "y/2006/MM/01/dd/02"
+)
 
 // contains(文字列型)
 func Contains(s []string, e string) bool {
@@ -18,4 +23,10 @@ func Contains(s []string, e string) bool {
 func GetTimeJst() time.Time {
 	jst, _ := time.LoadLocation("Asia/Tokyo")
 	return time.Now().In(jst)
+}
+
+// 曜日取得
+func GetYoubi(t time.Time) string {
+	YOUBI := []string{"日", "月", "火", "水", "木", "金", "土"}
+	return YOUBI[t.Weekday()]
 }

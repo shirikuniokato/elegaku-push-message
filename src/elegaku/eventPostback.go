@@ -1,6 +1,7 @@
 package elegaku
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/line/line-bot-sdk-go/linebot"
@@ -72,15 +73,38 @@ func notificationRemove(bot *linebot.Client, event *linebot.Event) {
 
 // 直近１週間分のボタンを送信（クイックリプライ）
 func schedule(bot *linebot.Client, event *linebot.Event) {
-	textMessage := linebot.NewTextMessage("未実装")
-	bot.ReplyMessage(event.ReplyToken, textMessage).Do()
+	bot.ReplyMessage(event.ReplyToken, createQuickReplyItems()).Do()
+}
+
+// 直近１週間分の出勤確認ボタンを作成
+func createQuickReplyItems() linebot.SendingMessage {
+	var results linebot.QuickReplyItems
+	// １週間分の加算値
+	w := []int{0, 1, 2, 3, 4, 5, 6}
+	for _, v := range w {
+		t := GetTimeJst().AddDate(0, 0, v)
+
+		// クイックリプライのボタンに表示する文字列を生成
+		var label string
+		if v == 0 {
+			label = "本日"
+		} else if v == 1 {
+			label = "明日"
+		} else {
+			label = fmt.Sprintf("%s(%s)", t.Format(MD_FMT), GetYoubi(t))
+		}
+
+		action := NewURIAction(label, fmt.Sprintf("https://www.elegaku.com/cast/schedule/%s", t.Format(ELEGAKU_YMD_FMT)))
+		results = *linebot.NewQuickReplyItems(linebot.NewQuickReplyButton("", action))
+	}
+	return linebot.NewTextMessage("選択した日付の出勤情報を確認します。").WithQuickReplies(&results)
 }
 
 // 位置情報を送信
 func location(bot *linebot.Client, event *linebot.Event) {
-	locationMessage := linebot.NewLocationMessage("エレガンス学院", "神奈川県川崎市川崎区堀之内町７−８", 35.533641839733406, 139.70597139350963)
+	message := linebot.NewLocationMessage("エレガンス学院", "神奈川県川崎市川崎区堀之内町７−８", 35.533641839733406, 139.70597139350963)
 	// 位置情報を送信
-	bot.ReplyMessage(event.ReplyToken, locationMessage).Do()
+	bot.ReplyMessage(event.ReplyToken, message).Do()
 }
 
 // 料金表を送信

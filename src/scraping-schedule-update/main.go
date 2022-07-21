@@ -36,7 +36,7 @@ func putSchedule() {
 		table := db.Table(tableName)
 
 		// 出勤情報取得
-		schedule, err := getSchedule(targetDate.Format("y/2006/MM/01/dd/02"))
+		schedule, err := getSchedule(targetDate.Format(elegaku.ELEGAKU_YMD_FMT))
 		if err != nil {
 			fmt.Println(err.Error())
 			continue

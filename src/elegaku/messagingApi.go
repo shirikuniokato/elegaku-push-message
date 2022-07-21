@@ -1,6 +1,10 @@
 package elegaku
 
-import "github.com/line/line-bot-sdk-go/linebot"
+import (
+	"encoding/json"
+
+	"github.com/line/line-bot-sdk-go/linebot"
+)
 
 // ↓ ドキュメント
 // https://developers.line.biz/ja/docs/messaging-api/
@@ -35,3 +39,38 @@ const (
 )
 
 const SystemImageURL = "https://cdn1.fu-kakumei.com/69/pc_bak/images/system/system1.jpg" // 料金表の画像URL
+
+// URIAction type
+type URIAction struct {
+	Label  string
+	URI    string
+	AltURI *URIActionAltURI
+}
+
+// URIActionAltURI type
+type URIActionAltURI struct {
+	Desktop string `json:"desktop"`
+}
+
+// MarshalJSON method of URIAction
+func (a *URIAction) MarshalJSON() ([]byte, error) {
+	return json.Marshal(&struct {
+		Type   linebot.ActionType `json:"type"`
+		Label  string             `json:"label,omitempty"`
+		URI    string             `json:"uri"`
+		AltURI *URIActionAltURI   `json:"altUri,omitempty"`
+	}{
+		Type:   linebot.ActionTypeURI,
+		Label:  a.Label,
+		URI:    a.URI,
+		AltURI: a.AltURI,
+	})
+}
+func (*URIAction) QuickReplyAction() {}
+
+func NewURIAction(label, uri string) *URIAction {
+	return &URIAction{
+		Label: label,
+		URI:   uri,
+	}
+}
