@@ -17,22 +17,17 @@ func reply(bot *linebot.Client, webhook elegaku.WebHook) error {
 	fmt.Println("*** reply start")
 	// リクエストされたイベントの件数分処理する
 	for _, event := range webhook.Events {
-		_, err := bot.ReplyMessage(event.ReplyToken, linebot.NewTextMessage("テスト")).Do()
-		if err != nil {
-			fmt.Println(err)
-			return err
-		}
-
+		// イベントごとに処理を振分
 		switch event.Type {
 		case linebot.EventTypeFollow: // フォローイベント
 			fmt.Println("*** event follow")
-			elegaku.Follow()
+			elegaku.Follow(bot, &event)
 		case linebot.EventTypeUnfollow: // フォロー解除イベント
 			fmt.Println("*** event unfollow")
-			elegaku.UnFollow()
+			elegaku.UnFollow(&event)
 		case linebot.EventTypePostback: // ポストバックイベント
 			fmt.Println("*** event postback")
-			elegaku.Postback()
+			elegaku.Postback(bot, &event)
 		default:
 			fmt.Println("*** event " + event.Type)
 			fmt.Println("処理対象外のイベント")
