@@ -78,7 +78,7 @@ func schedule(bot *linebot.Client, event *linebot.Event) {
 
 // 直近１週間分の出勤確認ボタンを作成
 func createQuickReplyItems() linebot.SendingMessage {
-	var results linebot.QuickReplyItems
+	items := []linebot.QuickReplyButton{}
 	// １週間分の加算値
 	w := []int{0, 1, 2, 3, 4, 5, 6}
 	for _, v := range w {
@@ -95,9 +95,10 @@ func createQuickReplyItems() linebot.SendingMessage {
 		}
 
 		action := NewURIAction(label, fmt.Sprintf("https://www.elegaku.com/cast/schedule/%s", t.Format(ELEGAKU_YMD_FMT)))
-		results = *linebot.NewQuickReplyItems(linebot.NewQuickReplyButton("", action))
+		items = append(items, *linebot.NewQuickReplyButton("", action))
 	}
-	return linebot.NewTextMessage("選択した日付の出勤情報を確認します。").WithQuickReplies(&results)
+	q := linebot.NewQuickReplyItems(&items[0], &items[1], &items[2], &items[3], &items[4], &items[5], &items[6])
+	return linebot.NewTextMessage("選択した日付の出勤情報を確認します。").WithQuickReplies(q)
 }
 
 // 位置情報を送信
