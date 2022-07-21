@@ -4,8 +4,8 @@ import "time"
 
 // 日付フォーマット
 const (
-	YMD_FMT         = "20060102"
-	MD_FMT          = "0102"
+	YMD_NUM_FMT     = "20060102"
+	MD_FMT          = "01/02"
 	ELEGAKU_YMD_FMT = "y/2006/MM/01/dd/02"
 )
 

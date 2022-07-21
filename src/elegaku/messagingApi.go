@@ -40,19 +40,17 @@ const (
 
 const SystemImageURL = "https://cdn1.fu-kakumei.com/69/pc_bak/images/system/system1.jpg" // 料金表の画像URL
 
-// URIAction type
+// クイックリプライでURIアクションを設定する場合に、line-bot-sdk-go/linebot/action.go#URIActionではインターフェースの型違いで使えないため
+// クイックリプライ用に合わせたインターフェールの型で自前で定義する
 type URIAction struct {
 	Label  string
 	URI    string
 	AltURI *URIActionAltURI
 }
-
-// URIActionAltURI type
 type URIActionAltURI struct {
 	Desktop string `json:"desktop"`
 }
 
-// MarshalJSON method of URIAction
 func (a *URIAction) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&struct {
 		Type   linebot.ActionType `json:"type"`
@@ -67,7 +65,6 @@ func (a *URIAction) MarshalJSON() ([]byte, error) {
 	})
 }
 func (*URIAction) QuickReplyAction() {}
-
 func NewURIAction(label, uri string) *URIAction {
 	return &URIAction{
 		Label: label,

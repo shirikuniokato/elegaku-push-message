@@ -28,7 +28,7 @@ func putSchedule() {
 	for _, v := range week {
 		// テーブル名取得
 		targetDate := t.AddDate(0, 0, v)
-		tableName := targetDate.Format(elegaku.YMD_FMT)
+		tableName := targetDate.Format(elegaku.YMD_NUM_FMT)
 		fmt.Println(tableName + " start")
 
 		// テーブル作成・取得

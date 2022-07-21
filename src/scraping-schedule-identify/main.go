@@ -27,7 +27,7 @@ func getNotificationList() []elegaku.PushInfo {
 	for _, d := range week {
 		// テーブル名取得
 		targetDate := t.AddDate(0, 0, d)
-		tableName := targetDate.Format(elegaku.YMD_FMT)
+		tableName := targetDate.Format(elegaku.YMD_NUM_FMT)
 		fmt.Println(tableName + " start")
 
 		// テーブル取得
