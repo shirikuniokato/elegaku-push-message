@@ -56,7 +56,7 @@ func Postback(bot *linebot.Client, event *linebot.Event) {
 // お気に入り登録用リストを送信
 func notificationList(bot *linebot.Client, event *linebot.Event) {
 	jsonData := []byte(`{
-		type: 'carousel',
+		"type": 'carousel',
 		contents: [
 			{
 				type: 'bubble',
@@ -88,7 +88,7 @@ func notificationList(bot *linebot.Client, event *linebot.Event) {
 							contents: [
 							  {
 								type: 'image',
-								url: "https://cdn-fu-kakumei.com/image/c589c70bcc1c290e/0/0/.api",
+								url: 'https://cdn-fu-kakumei.com/image/c589c70bcc1c290e/0/0/.api',
 								align: 'start',
 								size: 'xs',
 								flex: 1,
@@ -99,7 +99,7 @@ func notificationList(bot *linebot.Client, event *linebot.Event) {
 								contents: [
 								  {
 									type: 'text',
-									text: "girlNameAndAge",
+									text: 'girlNameAndAge',
 									weight: 'bold',
 									action: {
 									  type: 'uri',
@@ -111,12 +111,12 @@ func notificationList(bot *linebot.Client, event *linebot.Event) {
 								  },
 								  {
 									type: 'text',
-									text: threeSize,
+									text: 'threeSize',
 									size: 'xs',
 								  },
 								  {
 									type: 'text',
-									text: catchCopy,
+									text: 'catchCopy',
 									size: 'xs',
 								  },
 								],
