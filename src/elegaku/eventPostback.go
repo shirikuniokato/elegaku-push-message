@@ -56,94 +56,1268 @@ func Postback(bot *linebot.Client, event *linebot.Event) {
 // お気に入り登録用リストを送信
 func notificationList(bot *linebot.Client, event *linebot.Event) {
 	jsonData := []byte(`{
-		"type": 'carousel',
-		contents: [
-			{
-				type: 'bubble',
-				header: {
-					type: 'box',
-					layout: 'vertical',
-					contents: [
-					  {
-						type: 'text',
-						text: 'お気に入り登録',
-						align: 'center',
-						size: 'xl',
-						weight: 'bold',
-						color: '#F0F0F0',
-					  },
-					],
-					backgroundColor: '#84dcfd',
-				  },
-				body: {
-					type: 'box',
-					layout: 'vertical',
-					contents: [
+		"type": "carousel",
+		"contents": [
+		  {
+			"type": "bubble",
+			"size": "mega",
+			"header": {
+			  "type": "box",
+			  "layout": "vertical",
+			  "contents": [
+				{
+				  "type": "text",
+				  "text": "お気に入り登録",
+				  "align": "center",
+				  "size": "xl",
+				  "weight": "bold",
+				  "color": "#F0F0F0"
+				}
+			  ],
+			  "backgroundColor": "#007394"
+			},
+			"body": {
+			  "type": "box",
+			  "layout": "vertical",
+			  "contents": [
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "box",
+				  "layout": "horizontal",
+				  "contents": [
+					{
+					  "type": "image",
+					  "url": "https://cdn1.fu-kakumei.com/69/pc_bak/images/common/noimage.jpg",
+					  "align": "start",
+					  "size": "xs",
+					  "flex": 1
+					},
+					{
+					  "type": "box",
+					  "layout": "vertical",
+					  "contents": [
 						{
-							type: 'separator',
+						  "type": "text",
+						  "text": "girlNameAndAge",
+						  "weight": "bold",
+						  "action": {
+							"type": "uri",
+							"label": "action",
+							"uri": "http://linecorp.com/"
+						  },
+						  "color": "#3db3e9"
 						},
 						{
-							type: 'box',
-							layout: 'horizontal',
-							contents: [
-							  {
-								type: 'image',
-								url: 'https://cdn-fu-kakumei.com/image/c589c70bcc1c290e/0/0/.api',
-								align: 'start',
-								size: 'xs',
-								flex: 1,
-							  },
-							  {
-								type: 'box',
-								layout: 'vertical',
-								contents: [
-								  {
-									type: 'text',
-									text: 'girlNameAndAge',
-									weight: 'bold',
-									action: {
-									  type: 'uri',
-									  label: 'action',
-									  uri:
-										'https://www.elegaku.com/profile/top/castCode/260317/',
-									},
-									color: '#3db3e9',
-								  },
-								  {
-									type: 'text',
-									text: 'threeSize',
-									size: 'xs',
-								  },
-								  {
-									type: 'text',
-									text: 'catchCopy',
-									size: 'xs',
-								  },
-								],
-								flex: 2,
-							  },
-							  {
-								type: 'button',
-								action: {
-								  type: 'postback',
-								  label: '解除',
-								  data: 'register:remove=girlId',
-								},
-								flex: 1,
-								position: 'relative',
-								gravity: 'center',
-								style: 'primary',
-								color: '#F30100',
-								adjustMode: 'shrink-to-fit',
-							  }
-							],
-							margin: 'none',
-							paddingTop: 'sm',
-						  }
-	
-					]
+						  "type": "text",
+						  "text": "threeSize",
+						  "size": "xs"
+						},
+						{
+						  "type": "text",
+						  "text": "catchCopy",
+						  "size": "xs"
+						}
+					  ],
+					  "flex": 2
+					},
+					{
+					  "type": "button",
+					  "action": {
+						"type": "postback",
+						"label": "解除",
+						"data": "register:remove=XXXX"
+					  },
+					  "flex": 1,
+					  "position": "relative",
+					  "gravity": "center",
+					  "style": "primary",
+					  "color": "#F30100",
+					  "adjustMode": "shrink-to-fit"
+					}
+				  ],
+				  "margin": "none",
+				  "paddingTop": "sm"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "box",
+				  "layout": "horizontal",
+				  "contents": [
+					{
+					  "type": "image",
+					  "url": "https://cdn1.fu-kakumei.com/69/pc_bak/images/common/noimage.jpg",
+					  "align": "start",
+					  "size": "xs",
+					  "flex": 1
+					},
+					{
+					  "type": "box",
+					  "layout": "vertical",
+					  "contents": [
+						{
+						  "type": "text",
+						  "text": "girlNameAndAge",
+						  "weight": "bold"
+						},
+						{
+						  "type": "text",
+						  "text": "threeSize",
+						  "size": "xs"
+						},
+						{
+						  "type": "text",
+						  "text": "catchCopy",
+						  "size": "xs"
+						}
+					  ],
+					  "flex": 2
+					},
+					{
+					  "type": "button",
+					  "action": {
+						"type": "postback",
+						"label": "解除",
+						"data": "register:remove=XXXX"
+					  },
+					  "flex": 1,
+					  "position": "relative",
+					  "gravity": "center",
+					  "style": "primary",
+					  "color": "#F30100"
+					}
+				  ],
+				  "margin": "none",
+				  "paddingTop": "sm"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "box",
+				  "layout": "horizontal",
+				  "contents": [
+					{
+					  "type": "image",
+					  "url": "https://cdn1.fu-kakumei.com/69/pc_bak/images/common/noimage.jpg",
+					  "align": "start",
+					  "size": "xs",
+					  "flex": 1
+					},
+					{
+					  "type": "box",
+					  "layout": "vertical",
+					  "contents": [
+						{
+						  "type": "text",
+						  "text": "girlNameAndAge",
+						  "weight": "bold"
+						},
+						{
+						  "type": "text",
+						  "text": "threeSize",
+						  "size": "xs"
+						},
+						{
+						  "type": "text",
+						  "text": "catchCopy",
+						  "size": "xs"
+						}
+					  ],
+					  "flex": 2
+					},
+					{
+					  "type": "button",
+					  "action": {
+						"type": "postback",
+						"label": "解除",
+						"data": "register:remove=XXXX"
+					  },
+					  "flex": 1,
+					  "position": "relative",
+					  "gravity": "center",
+					  "style": "primary",
+					  "color": "#F30100"
+					}
+				  ],
+				  "margin": "none",
+				  "paddingTop": "sm"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "box",
+				  "layout": "horizontal",
+				  "contents": [
+					{
+					  "type": "image",
+					  "url": "https://cdn1.fu-kakumei.com/69/pc_bak/images/common/noimage.jpg",
+					  "align": "start",
+					  "size": "xs",
+					  "flex": 1
+					},
+					{
+					  "type": "box",
+					  "layout": "vertical",
+					  "contents": [
+						{
+						  "type": "text",
+						  "text": "girlNameAndAge",
+						  "weight": "bold"
+						},
+						{
+						  "type": "text",
+						  "text": "threeSize",
+						  "size": "xs"
+						},
+						{
+						  "type": "text",
+						  "text": "catchCopy",
+						  "size": "xs"
+						}
+					  ],
+					  "flex": 2
+					},
+					{
+					  "type": "button",
+					  "action": {
+						"type": "postback",
+						"label": "解除",
+						"data": "register:remove=XXXX"
+					  },
+					  "flex": 1,
+					  "position": "relative",
+					  "gravity": "center",
+					  "style": "primary",
+					  "color": "#F30100"
+					}
+				  ],
+				  "margin": "none",
+				  "paddingTop": "sm"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "box",
+				  "layout": "horizontal",
+				  "contents": [
+					{
+					  "type": "image",
+					  "url": "https://cdn1.fu-kakumei.com/69/pc_bak/images/common/noimage.jpg",
+					  "align": "start",
+					  "size": "xs",
+					  "flex": 1
+					},
+					{
+					  "type": "box",
+					  "layout": "vertical",
+					  "contents": [
+						{
+						  "type": "text",
+						  "text": "girlNameAndAge",
+						  "weight": "bold"
+						},
+						{
+						  "type": "text",
+						  "text": "threeSize",
+						  "size": "xs"
+						},
+						{
+						  "type": "text",
+						  "text": "catchCopy",
+						  "size": "xs"
+						}
+					  ],
+					  "flex": 2
+					},
+					{
+					  "type": "button",
+					  "action": {
+						"type": "postback",
+						"label": "解除",
+						"data": "register:remove=XXXX"
+					  },
+					  "flex": 1,
+					  "position": "relative",
+					  "gravity": "center",
+					  "style": "primary",
+					  "color": "#F30100"
+					}
+				  ],
+				  "margin": "none",
+				  "paddingTop": "sm"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "box",
+				  "layout": "horizontal",
+				  "contents": [
+					{
+					  "type": "image",
+					  "url": "https://cdn1.fu-kakumei.com/69/pc_bak/images/common/noimage.jpg",
+					  "align": "start",
+					  "size": "xs",
+					  "flex": 1
+					},
+					{
+					  "type": "box",
+					  "layout": "vertical",
+					  "contents": [
+						{
+						  "type": "text",
+						  "text": "girlNameAndAge",
+						  "weight": "bold"
+						},
+						{
+						  "type": "text",
+						  "text": "threeSize",
+						  "size": "xs"
+						},
+						{
+						  "type": "text",
+						  "text": "catchCopy",
+						  "size": "xs"
+						}
+					  ],
+					  "flex": 2
+					},
+					{
+					  "type": "button",
+					  "action": {
+						"type": "postback",
+						"label": "解除",
+						"data": "register:remove=XXXX"
+					  },
+					  "flex": 1,
+					  "position": "relative",
+					  "gravity": "center",
+					  "style": "primary",
+					  "color": "#F30100"
+					}
+				  ],
+				  "margin": "none",
+				  "paddingTop": "sm"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "box",
+				  "layout": "horizontal",
+				  "contents": [
+					{
+					  "type": "image",
+					  "url": "https://cdn1.fu-kakumei.com/69/pc_bak/images/common/noimage.jpg",
+					  "align": "start",
+					  "size": "xs",
+					  "flex": 1
+					},
+					{
+					  "type": "box",
+					  "layout": "vertical",
+					  "contents": [
+						{
+						  "type": "text",
+						  "text": "girlNameAndAge",
+						  "weight": "bold"
+						},
+						{
+						  "type": "text",
+						  "text": "threeSize",
+						  "size": "xs"
+						},
+						{
+						  "type": "text",
+						  "text": "catchCopy",
+						  "size": "xs"
+						}
+					  ],
+					  "flex": 2
+					},
+					{
+					  "type": "button",
+					  "action": {
+						"type": "postback",
+						"label": "解除",
+						"data": "register:remove=XXXX"
+					  },
+					  "flex": 1,
+					  "position": "relative",
+					  "gravity": "center",
+					  "style": "primary",
+					  "color": "#F30100"
+					}
+				  ],
+				  "margin": "none",
+				  "paddingTop": "sm"
+				},
+				{
+				  "type": "separator"
 				}
+			  ]
 			}
+		  },
+		  {
+			"type": "bubble",
+			"size": "mega",
+			"header": {
+			  "type": "box",
+			  "layout": "vertical",
+			  "contents": [
+				{
+				  "type": "text",
+				  "text": "お気に入り登録",
+				  "align": "center",
+				  "size": "xl",
+				  "weight": "bold",
+				  "color": "#F0F0F0"
+				}
+			  ],
+			  "backgroundColor": "#007394"
+			},
+			"body": {
+			  "type": "box",
+			  "layout": "vertical",
+			  "contents": [
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "box",
+				  "layout": "horizontal",
+				  "contents": [
+					{
+					  "type": "image",
+					  "url": "https://cdn1.fu-kakumei.com/69/pc_bak/images/common/noimage.jpg",
+					  "align": "start",
+					  "size": "xs",
+					  "flex": 1
+					},
+					{
+					  "type": "box",
+					  "layout": "vertical",
+					  "contents": [
+						{
+						  "type": "text",
+						  "text": "girlNameAndAge",
+						  "weight": "bold"
+						},
+						{
+						  "type": "text",
+						  "text": "threeSize",
+						  "size": "xs"
+						},
+						{
+						  "type": "text",
+						  "text": "catchCopy",
+						  "size": "xs"
+						}
+					  ],
+					  "flex": 2
+					},
+					{
+					  "type": "button",
+					  "action": {
+						"type": "postback",
+						"label": "解除",
+						"data": "register:remove=XXXX"
+					  },
+					  "flex": 1,
+					  "position": "relative",
+					  "gravity": "center",
+					  "style": "primary",
+					  "color": "#F30100",
+					  "adjustMode": "shrink-to-fit"
+					}
+				  ],
+				  "margin": "none",
+				  "paddingTop": "sm"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "box",
+				  "layout": "horizontal",
+				  "contents": [
+					{
+					  "type": "image",
+					  "url": "https://cdn1.fu-kakumei.com/69/pc_bak/images/common/noimage.jpg",
+					  "align": "start",
+					  "size": "xs",
+					  "flex": 1
+					},
+					{
+					  "type": "box",
+					  "layout": "vertical",
+					  "contents": [
+						{
+						  "type": "text",
+						  "text": "girlNameAndAge",
+						  "weight": "bold"
+						},
+						{
+						  "type": "text",
+						  "text": "threeSize",
+						  "size": "xs"
+						},
+						{
+						  "type": "text",
+						  "text": "catchCopy",
+						  "size": "xs"
+						}
+					  ],
+					  "flex": 2
+					},
+					{
+					  "type": "button",
+					  "action": {
+						"type": "postback",
+						"label": "解除",
+						"data": "register:remove=XXXX"
+					  },
+					  "flex": 1,
+					  "position": "relative",
+					  "gravity": "center",
+					  "style": "primary",
+					  "color": "#F30100"
+					}
+				  ],
+				  "margin": "none",
+				  "paddingTop": "sm"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "box",
+				  "layout": "horizontal",
+				  "contents": [
+					{
+					  "type": "image",
+					  "url": "https://cdn1.fu-kakumei.com/69/pc_bak/images/common/noimage.jpg",
+					  "align": "start",
+					  "size": "xs",
+					  "flex": 1
+					},
+					{
+					  "type": "box",
+					  "layout": "vertical",
+					  "contents": [
+						{
+						  "type": "text",
+						  "text": "girlNameAndAge",
+						  "weight": "bold"
+						},
+						{
+						  "type": "text",
+						  "text": "threeSize",
+						  "size": "xs"
+						},
+						{
+						  "type": "text",
+						  "text": "catchCopy",
+						  "size": "xs"
+						}
+					  ],
+					  "flex": 2
+					},
+					{
+					  "type": "button",
+					  "action": {
+						"type": "postback",
+						"label": "解除",
+						"data": "register:remove=XXXX"
+					  },
+					  "flex": 1,
+					  "position": "relative",
+					  "gravity": "center",
+					  "style": "primary",
+					  "color": "#F30100"
+					}
+				  ],
+				  "margin": "none",
+				  "paddingTop": "sm"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "box",
+				  "layout": "horizontal",
+				  "contents": [
+					{
+					  "type": "image",
+					  "url": "https://cdn1.fu-kakumei.com/69/pc_bak/images/common/noimage.jpg",
+					  "align": "start",
+					  "size": "xs",
+					  "flex": 1
+					},
+					{
+					  "type": "box",
+					  "layout": "vertical",
+					  "contents": [
+						{
+						  "type": "text",
+						  "text": "girlNameAndAge",
+						  "weight": "bold"
+						},
+						{
+						  "type": "text",
+						  "text": "threeSize",
+						  "size": "xs"
+						},
+						{
+						  "type": "text",
+						  "text": "catchCopy",
+						  "size": "xs"
+						}
+					  ],
+					  "flex": 2
+					},
+					{
+					  "type": "button",
+					  "action": {
+						"type": "postback",
+						"label": "解除",
+						"data": "register:remove=XXXX"
+					  },
+					  "flex": 1,
+					  "position": "relative",
+					  "gravity": "center",
+					  "style": "primary",
+					  "color": "#F30100"
+					}
+				  ],
+				  "margin": "none",
+				  "paddingTop": "sm"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "box",
+				  "layout": "horizontal",
+				  "contents": [
+					{
+					  "type": "image",
+					  "url": "https://cdn1.fu-kakumei.com/69/pc_bak/images/common/noimage.jpg",
+					  "align": "start",
+					  "size": "xs",
+					  "flex": 1
+					},
+					{
+					  "type": "box",
+					  "layout": "vertical",
+					  "contents": [
+						{
+						  "type": "text",
+						  "text": "girlNameAndAge",
+						  "weight": "bold"
+						},
+						{
+						  "type": "text",
+						  "text": "threeSize",
+						  "size": "xs"
+						},
+						{
+						  "type": "text",
+						  "text": "catchCopy",
+						  "size": "xs"
+						}
+					  ],
+					  "flex": 2
+					},
+					{
+					  "type": "button",
+					  "action": {
+						"type": "postback",
+						"label": "解除",
+						"data": "register:remove=XXXX"
+					  },
+					  "flex": 1,
+					  "position": "relative",
+					  "gravity": "center",
+					  "style": "primary",
+					  "color": "#F30100"
+					}
+				  ],
+				  "margin": "none",
+				  "paddingTop": "sm"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "box",
+				  "layout": "horizontal",
+				  "contents": [
+					{
+					  "type": "image",
+					  "url": "https://cdn1.fu-kakumei.com/69/pc_bak/images/common/noimage.jpg",
+					  "align": "start",
+					  "size": "xs",
+					  "flex": 1
+					},
+					{
+					  "type": "box",
+					  "layout": "vertical",
+					  "contents": [
+						{
+						  "type": "text",
+						  "text": "girlNameAndAge",
+						  "weight": "bold"
+						},
+						{
+						  "type": "text",
+						  "text": "threeSize",
+						  "size": "xs"
+						},
+						{
+						  "type": "text",
+						  "text": "catchCopy",
+						  "size": "xs"
+						}
+					  ],
+					  "flex": 2
+					},
+					{
+					  "type": "button",
+					  "action": {
+						"type": "postback",
+						"label": "解除",
+						"data": "register:remove=XXXX"
+					  },
+					  "flex": 1,
+					  "position": "relative",
+					  "gravity": "center",
+					  "style": "primary",
+					  "color": "#F30100"
+					}
+				  ],
+				  "margin": "none",
+				  "paddingTop": "sm"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "box",
+				  "layout": "horizontal",
+				  "contents": [
+					{
+					  "type": "image",
+					  "url": "https://cdn1.fu-kakumei.com/69/pc_bak/images/common/noimage.jpg",
+					  "align": "start",
+					  "size": "xs",
+					  "flex": 1
+					},
+					{
+					  "type": "box",
+					  "layout": "vertical",
+					  "contents": [
+						{
+						  "type": "text",
+						  "text": "girlNameAndAge",
+						  "weight": "bold"
+						},
+						{
+						  "type": "text",
+						  "text": "threeSize",
+						  "size": "xs"
+						},
+						{
+						  "type": "text",
+						  "text": "catchCopy",
+						  "size": "xs"
+						}
+					  ],
+					  "flex": 2
+					},
+					{
+					  "type": "button",
+					  "action": {
+						"type": "postback",
+						"label": "解除",
+						"data": "register:remove=XXXX"
+					  },
+					  "flex": 1,
+					  "position": "relative",
+					  "gravity": "center",
+					  "style": "primary",
+					  "color": "#F30100"
+					}
+				  ],
+				  "margin": "none",
+				  "paddingTop": "sm"
+				},
+				{
+				  "type": "separator"
+				}
+			  ]
+			}
+		  },
+		  {
+			"type": "bubble",
+			"size": "mega",
+			"header": {
+			  "type": "box",
+			  "layout": "vertical",
+			  "contents": [
+				{
+				  "type": "text",
+				  "text": "お気に入り登録",
+				  "align": "center",
+				  "size": "xl",
+				  "weight": "bold",
+				  "color": "#F0F0F0"
+				}
+			  ],
+			  "backgroundColor": "#007394"
+			},
+			"body": {
+			  "type": "box",
+			  "layout": "vertical",
+			  "contents": [
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "box",
+				  "layout": "horizontal",
+				  "contents": [
+					{
+					  "type": "image",
+					  "url": "https://cdn1.fu-kakumei.com/69/pc_bak/images/common/noimage.jpg",
+					  "align": "start",
+					  "size": "xs",
+					  "flex": 1
+					},
+					{
+					  "type": "box",
+					  "layout": "vertical",
+					  "contents": [
+						{
+						  "type": "text",
+						  "text": "girlNameAndAge",
+						  "weight": "bold"
+						},
+						{
+						  "type": "text",
+						  "text": "threeSize",
+						  "size": "xs"
+						},
+						{
+						  "type": "text",
+						  "text": "catchCopy",
+						  "size": "xs"
+						}
+					  ],
+					  "flex": 2
+					},
+					{
+					  "type": "button",
+					  "action": {
+						"type": "postback",
+						"label": "解除",
+						"data": "register:remove=XXXX"
+					  },
+					  "flex": 1,
+					  "position": "relative",
+					  "gravity": "center",
+					  "style": "primary",
+					  "color": "#F30100",
+					  "adjustMode": "shrink-to-fit"
+					}
+				  ],
+				  "margin": "none",
+				  "paddingTop": "sm"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "box",
+				  "layout": "horizontal",
+				  "contents": [
+					{
+					  "type": "image",
+					  "url": "https://cdn1.fu-kakumei.com/69/pc_bak/images/common/noimage.jpg",
+					  "align": "start",
+					  "size": "xs",
+					  "flex": 1
+					},
+					{
+					  "type": "box",
+					  "layout": "vertical",
+					  "contents": [
+						{
+						  "type": "text",
+						  "text": "girlNameAndAge",
+						  "weight": "bold"
+						},
+						{
+						  "type": "text",
+						  "text": "threeSize",
+						  "size": "xs"
+						},
+						{
+						  "type": "text",
+						  "text": "catchCopy",
+						  "size": "xs"
+						}
+					  ],
+					  "flex": 2
+					},
+					{
+					  "type": "button",
+					  "action": {
+						"type": "postback",
+						"label": "解除",
+						"data": "register:remove=XXXX"
+					  },
+					  "flex": 1,
+					  "position": "relative",
+					  "gravity": "center",
+					  "style": "primary",
+					  "color": "#F30100"
+					}
+				  ],
+				  "margin": "none",
+				  "paddingTop": "sm"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "box",
+				  "layout": "horizontal",
+				  "contents": [
+					{
+					  "type": "image",
+					  "url": "https://cdn1.fu-kakumei.com/69/pc_bak/images/common/noimage.jpg",
+					  "align": "start",
+					  "size": "xs",
+					  "flex": 1
+					},
+					{
+					  "type": "box",
+					  "layout": "vertical",
+					  "contents": [
+						{
+						  "type": "text",
+						  "text": "girlNameAndAge",
+						  "weight": "bold"
+						},
+						{
+						  "type": "text",
+						  "text": "threeSize",
+						  "size": "xs"
+						},
+						{
+						  "type": "text",
+						  "text": "catchCopy",
+						  "size": "xs"
+						}
+					  ],
+					  "flex": 2
+					},
+					{
+					  "type": "button",
+					  "action": {
+						"type": "postback",
+						"label": "解除",
+						"data": "register:remove=XXXX"
+					  },
+					  "flex": 1,
+					  "position": "relative",
+					  "gravity": "center",
+					  "style": "primary",
+					  "color": "#F30100"
+					}
+				  ],
+				  "margin": "none",
+				  "paddingTop": "sm"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "box",
+				  "layout": "horizontal",
+				  "contents": [
+					{
+					  "type": "image",
+					  "url": "https://cdn1.fu-kakumei.com/69/pc_bak/images/common/noimage.jpg",
+					  "align": "start",
+					  "size": "xs",
+					  "flex": 1
+					},
+					{
+					  "type": "box",
+					  "layout": "vertical",
+					  "contents": [
+						{
+						  "type": "text",
+						  "text": "girlNameAndAge",
+						  "weight": "bold"
+						},
+						{
+						  "type": "text",
+						  "text": "threeSize",
+						  "size": "xs"
+						},
+						{
+						  "type": "text",
+						  "text": "catchCopy",
+						  "size": "xs"
+						}
+					  ],
+					  "flex": 2
+					},
+					{
+					  "type": "button",
+					  "action": {
+						"type": "postback",
+						"label": "解除",
+						"data": "register:remove=XXXX"
+					  },
+					  "flex": 1,
+					  "position": "relative",
+					  "gravity": "center",
+					  "style": "primary",
+					  "color": "#F30100"
+					}
+				  ],
+				  "margin": "none",
+				  "paddingTop": "sm"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "box",
+				  "layout": "horizontal",
+				  "contents": [
+					{
+					  "type": "image",
+					  "url": "https://cdn1.fu-kakumei.com/69/pc_bak/images/common/noimage.jpg",
+					  "align": "start",
+					  "size": "xs",
+					  "flex": 1
+					},
+					{
+					  "type": "box",
+					  "layout": "vertical",
+					  "contents": [
+						{
+						  "type": "text",
+						  "text": "girlNameAndAge",
+						  "weight": "bold"
+						},
+						{
+						  "type": "text",
+						  "text": "threeSize",
+						  "size": "xs"
+						},
+						{
+						  "type": "text",
+						  "text": "catchCopy",
+						  "size": "xs"
+						}
+					  ],
+					  "flex": 2
+					},
+					{
+					  "type": "button",
+					  "action": {
+						"type": "postback",
+						"label": "解除",
+						"data": "register:remove=XXXX"
+					  },
+					  "flex": 1,
+					  "position": "relative",
+					  "gravity": "center",
+					  "style": "primary",
+					  "color": "#F30100"
+					}
+				  ],
+				  "margin": "none",
+				  "paddingTop": "sm"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "box",
+				  "layout": "horizontal",
+				  "contents": [
+					{
+					  "type": "image",
+					  "url": "https://cdn1.fu-kakumei.com/69/pc_bak/images/common/noimage.jpg",
+					  "align": "start",
+					  "size": "xs",
+					  "flex": 1
+					},
+					{
+					  "type": "box",
+					  "layout": "vertical",
+					  "contents": [
+						{
+						  "type": "text",
+						  "text": "girlNameAndAge",
+						  "weight": "bold"
+						},
+						{
+						  "type": "text",
+						  "text": "threeSize",
+						  "size": "xs"
+						},
+						{
+						  "type": "text",
+						  "text": "catchCopy",
+						  "size": "xs"
+						}
+					  ],
+					  "flex": 2
+					},
+					{
+					  "type": "button",
+					  "action": {
+						"type": "postback",
+						"label": "解除",
+						"data": "register:remove=XXXX"
+					  },
+					  "flex": 1,
+					  "position": "relative",
+					  "gravity": "center",
+					  "style": "primary",
+					  "color": "#F30100"
+					}
+				  ],
+				  "margin": "none",
+				  "paddingTop": "sm"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "separator"
+				},
+				{
+				  "type": "box",
+				  "layout": "horizontal",
+				  "contents": [
+					{
+					  "type": "image",
+					  "url": "https://cdn1.fu-kakumei.com/69/pc_bak/images/common/noimage.jpg",
+					  "align": "start",
+					  "size": "xs",
+					  "flex": 1
+					},
+					{
+					  "type": "box",
+					  "layout": "vertical",
+					  "contents": [
+						{
+						  "type": "text",
+						  "text": "girlNameAndAge",
+						  "weight": "bold"
+						},
+						{
+						  "type": "text",
+						  "text": "threeSize",
+						  "size": "xs"
+						},
+						{
+						  "type": "text",
+						  "text": "catchCopy",
+						  "size": "xs"
+						}
+					  ],
+					  "flex": 2
+					},
+					{
+					  "type": "button",
+					  "action": {
+						"type": "postback",
+						"label": "解除",
+						"data": "register:remove=XXXX"
+					  },
+					  "flex": 1,
+					  "position": "relative",
+					  "gravity": "center",
+					  "style": "primary",
+					  "color": "#F30100"
+					}
+				  ],
+				  "margin": "none",
+				  "paddingTop": "sm"
+				},
+				{
+				  "type": "separator"
+				}
+			  ]
+			}
+		  }
 		]
 	  }
 	`)
