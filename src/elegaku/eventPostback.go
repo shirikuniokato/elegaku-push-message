@@ -114,22 +114,22 @@ func notificationList(bot *linebot.Client, event *linebot.Event) {
 									}
 								],
 								"flex": 2
+							},
+							{
+								"type": "button",
+								"action": {
+									"type": "postback",
+									"label": "解除",
+									"data": "register:remove=girlId"
+								},
+								"flex": 1,
+								"position": "relative",
+								"gravity": "center",
+								"style": "primary",
+								"color": "#F30100",
+								"adjustMode": "shrink-to-fit"
 							}
 						]
-					},
-					{
-						"type": "button",
-						"action": {
-							"type": "postback",
-							"label": "解除",
-							"data": "register:remove=girlId"
-						},
-						"flex": 1,
-						"position": "relative",
-						"gravity": "center",
-						"style": "primary",
-						"color": "#F30100",
-						"adjustMode": "shrink-to-fit"
 					}
 				],
 				"margin": "none",
