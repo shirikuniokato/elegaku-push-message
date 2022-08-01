@@ -47,136 +47,53 @@ const PUSH_MESSAGE = `{
 	  "contents": [
 		{
 		  "type": "text",
-		  "text": "Brown Cafe",
-		  "weight": "bold",
-		  "size": "xl"
+		  "text": girlNameAndAge,
+		  "size": "xl",
+		  "color": "#3db3e9",
+		  "action": {
+			"type": "uri",
+			"label": "action",
+			"uri": "https://www.elegaku.com/profile/top/castCode/" + girlId + "/",
+		  },
 		},
 		{
-		  "type": "box",
-		  "layout": "baseline",
-		  "margin": "md",
-		  "contents": [
-			{
-			  "type": "icon",
-			  "size": "sm",
-			  "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
-			},
-			{
-			  "type": "icon",
-			  "size": "sm",
-			  "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
-			},
-			{
-			  "type": "icon",
-			  "size": "sm",
-			  "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
-			},
-			{
-			  "type": "icon",
-			  "size": "sm",
-			  "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gold_star_28.png"
-			},
-			{
-			  "type": "icon",
-			  "size": "sm",
-			  "url": "https://scdn.line-apps.com/n/channel_devcenter/img/fx/review_gray_star_28.png"
-			},
-			{
-			  "type": "text",
-			  "text": "4.0",
-			  "size": "sm",
-			  "color": "#999999",
-			  "margin": "md",
-			  "flex": 0
-			}
-		  ]
+		  "type": "text",
+		  "text": threeSize,
 		},
 		{
-		  "type": "box",
-		  "layout": "vertical",
-		  "margin": "lg",
-		  "spacing": "sm",
-		  "contents": [
-			{
-			  "type": "box",
-			  "layout": "baseline",
-			  "spacing": "sm",
-			  "contents": [
-				{
-				  "type": "text",
-				  "text": "Place",
-				  "color": "#aaaaaa",
-				  "size": "sm",
-				  "flex": 1
-				},
-				{
-				  "type": "text",
-				  "text": "Miraina Tower, 4-1-6 Shinjuku, Tokyo",
-				  "wrap": true,
-				  "color": "#666666",
-				  "size": "sm",
-				  "flex": 5
-				}
-			  ]
-			},
-			{
-			  "type": "box",
-			  "layout": "baseline",
-			  "spacing": "sm",
-			  "contents": [
-				{
-				  "type": "text",
-				  "text": "Time",
-				  "color": "#aaaaaa",
-				  "size": "sm",
-				  "flex": 1
-				},
-				{
-				  "type": "text",
-				  "text": "10:00 - 23:00",
-				  "wrap": true,
-				  "color": "#666666",
-				  "size": "sm",
-				  "flex": 5
-				}
-			  ]
-			}
-		  ]
-		}
-	  ]
+		  "type": "text",
+		  "text": catchCopy,
+		},
+	  ],
+	  "alignItems": "center",
 	},
 	"footer": {
 	  "type": "box",
-	  "layout": "vertical",
+	  "layout": "horizontal",
 	  "spacing": "sm",
 	  "contents": [
 		{
 		  "type": "button",
-		  "style": "link",
+		  "style": "primary",
 		  "height": "sm",
 		  "action": {
 			"type": "uri",
-			"label": "CALL",
-			"uri": "https://linecorp.com"
-		  }
+			"label": "ウェブサイト",
+			"uri": "https://www.elegaku.com/profile/top/castCode/" + girlId + "/",
+		  },
 		},
 		{
 		  "type": "button",
-		  "style": "link",
-		  "height": "sm",
 		  "action": {
 			"type": "uri",
-			"label": "WEBSITE",
-			"uri": "https://linecorp.com"
-		  }
+			"uri": "tel:0442465322",
+			"label": "TEL",
+		  },
+		  "style": "primary",
+		  "height": "sm",
+		  "color": "#f3892b",
 		},
-		{
-		  "type": "box",
-		  "layout": "vertical",
-		  "contents": [],
-		  "margin": "sm"
-		}
 	  ],
-	  "flex": 0
+	  "flex": 0,
 	}
   }`
