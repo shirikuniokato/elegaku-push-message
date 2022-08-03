@@ -77,7 +77,14 @@ func bindUserAndGirl(db *dynamo.DB, targetDate string, schedule []elegaku.Schedu
 		}
 
 		// SQSに格納する情報を初期化する
-		info := elegaku.PushInfo{TargetDate: targetDate, GirlId: s.GirlId, Image: g.Image}
+		info := elegaku.PushInfo{
+			TargetDate: targetDate,
+			GirlId:     s.GirlId,
+			Image:      g.Image,
+			NameAndAge: fmt.Sprintf("%s(%d)", g.Name, g.Age),
+			ThreeSize:  g.ThreeSize,
+			CatchCopy:  g.CatchCopy,
+		}
 
 		// 女の子とユーザを紐づける
 		for _, u := range userList {
@@ -88,7 +95,7 @@ func bindUserAndGirl(db *dynamo.DB, targetDate string, schedule []elegaku.Schedu
 		}
 
 		// ユーザ情報が紐づかない場合は次の通知情報へ
-		if info.UserIds == nil {
+		if info.UserIds == nil || len(info.UserIds) == 0 {
 			continue
 		}
 
@@ -106,6 +113,10 @@ func HandleLambdaEvent() {
 	// SQSに接続
 	sqs := elegaku.ConnectSQS()
 	// SQSに通知情報を格納する
+	if len(pushInfoList) == 0 {
+		fmt.Println("no push info")
+		return
+	}
 	elegaku.PushSQS(sqs, pushInfoList)
 }
 

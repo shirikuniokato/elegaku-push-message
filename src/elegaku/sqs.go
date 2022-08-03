@@ -10,10 +10,13 @@ import (
 
 // SQSに格納する通知情報
 type PushInfo struct {
-	TargetDate string   `json:"target_date"`
-	GirlId     string   `json:"girl_id"`
-	Image      string   `json:"image"`
 	UserIds    []string `json:"user_ids,omitempty"`
+	GirlId     string   `json:"girl_id"`
+	TargetDate string   `json:"target_date"`
+	Image      string   `json:"image"`
+	NameAndAge string   `json:"name_and_age"`
+	ThreeSize  string   `json:"three_size"`
+	CatchCopy  string   `json:"catch_copy"`
 }
 
 // SQSに接続
